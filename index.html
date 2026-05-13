@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SafeBall — Play Safe. Play More.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #f0faf5;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: white;
+      border-bottom: 1px solid #d0ede2;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: #085041;
+    }
+
+    .nav-brand span { color: #1D9E75; }
+
+    .nav-links { display: flex; gap: 2rem; }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #0F6E56;
+      font-weight: 700;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #085041; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #c8f0e0 0%, #5DCAA5 60%, #1D9E75 100%);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      top: -120px; right: -100px;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      bottom: -60px; left: -60px;
+    }
+
+    .ball-icon {
+      font-size: 72px;
+      display: block;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 900;
+      color: #04342C;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 span { color: white; }
+
+    .hero-tagline {
+      font-size: 20px;
+      font-weight: 700;
+      color: #085041;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: #04342C;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: #085041;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: #0F6E56; transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent;
+      color: #04342C;
+      border: 2px solid #04342C;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-outline:hover { background: rgba(4,52,44,0.1); transform: translateY(-2px); }
+
+    /* SECTIONS */
+    section { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1D9E75;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+      color: #085041;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #4a7a6a;
+      font-size: 15px;
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid #c8ead8;
+      border-radius: 16px;
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(8,80,65,0.1);
+    }
+
+    .feature-icon { font-size: 36px; display: block; margin-bottom: 0.75rem; }
+
+    .feature-card h3 { font-size: 15px; font-weight: 800; color: #085041; margin-bottom: 0.4rem; }
+    .feature-card p { font-size: 13px; color: #5a8a78; line-height: 1.6; }
+
+    /* MISSION VISION */
+    .mv-section { background: white; border-radius: 0; padding: 4rem 2rem; }
+    .mv-section > div { max-width: 900px; margin: 0 auto; }
+
+    .mv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) { .mv-grid { grid-template-columns: 1fr; } }
+
+    .mv-card {
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .mv-card.mission { background: #E1F5EE; border: 1px solid #9FE1CB; }
+    .mv-card.vision { background: #E6F1FB; border: 1px solid #B5D4F4; }
+
+    .mv-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+    }
+
+    .mv-card.mission .mv-pill { background: #9FE1CB; color: #04342C; }
+    .mv-card.vision .mv-pill { background: #B5D4F4; color: #042C53; }
+
+    .mv-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      margin-bottom: 0.75rem;
+    }
+
+    .mv-card.mission h3 { color: #04342C; }
+    .mv-card.vision h3 { color: #042C53; }
+
+    .mv-card p { font-size: 14px; line-height: 1.8; }
+    .mv-card.mission p { color: #0F6E56; }
+    .mv-card.vision p { color: #185FA5; }
+
+    /* TARGET MARKET */
+    .target-bg { background: #085041; padding: 4rem 2rem; }
+    .target-bg .section-title { color: white; }
+    .target-bg .section-label { color: #5DCAA5; }
+    .target-bg .section-sub { color: #9FE1CB; }
+
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .target-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+
+    .target-card .icon { font-size: 32px; display: block; margin-bottom: 0.5rem; }
+    .target-card h4 { font-size: 14px; font-weight: 800; color: white; margin-bottom: 0.25rem; }
+    .target-card p { font-size: 12px; color: #9FE1CB; line-height: 1.5; }
+
+    /* COMPARE */
+    .compare-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      min-width: 480px;
+    }
+
+    thead th {
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    thead th:first-child { background: #085041; color: white; border-radius: 12px 0 0 0; }
+    thead th:nth-child(2) { background: #1D9E75; color: white; }
+    thead th:nth-child(3) { background: #e8e4e0; color: #555; border-radius: 0 12px 0 0; }
+
+    tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e8f5ef;
+      color: #1a1a1a;
+    }
+
+    tbody tr:nth-child(even) td { background: #f5faf7; }
+    tbody tr:last-child td:first-child { border-radius: 0 0 0 12px; }
+    tbody tr:last-child td:last-child { border-radius: 0 0 12px 0; }
+
+    .check { color: #1D9E75; font-weight: 800; }
+    .cross { color: #E24B4A; font-weight: 800; }
+
+    /* FOOTER */
+    footer {
+      background: #04342C;
+      color: #9FE1CB;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    footer .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: white;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    footer .brand span { color: #5DCAA5; }
+    footer p { font-size: 14px; margin-bottom: 0.25rem; }
+    footer .copy { font-size: 12px; color: #5DCAA5; margin-top: 1.5rem; }
+
+    /* DIVIDER */
+    .divider { height: 4px; background: linear-gradient(90deg, #1D9E75, #5DCAA5, #9FE1CB); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-brand">Safe<span>Ball</span></div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#mission">Mission</a>
+      <a href="#market">Market</a>
+      <a href="#compare">Compare</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="ball-icon">⚽</span>
+    <h1>Safe<span>Ball</span></h1>
+    <p class="hero-tagline">Play Safe. Play More.</p>
+    <p class="hero-desc">The world's first school-safe sports ball — designed to protect children from injuries while keeping the full joy of the game alive.</p>
+    <div class="hero-btns">
+      <a href="#features" class="btn-primary">Discover the Product</a>
+      <a href="#mission" class="btn-outline">Our Mission</a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section-label">Product Design</div>
+    <h2 class="section-title">Built for Safety. Built for Play.</h2>
+    <p class="section-sub">Every layer of SafeBall is engineered to absorb impact, reduce friction, and make every kick feel confident — not painful.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">🧽</span>
+        <h3>Foam Layer</h3>
+        <p>Absorbs energy on every impact, preventing sharp stings and bruises</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🌬️</span>
+        <h3>Low Air Pressure</h3>
+        <p>Ball compresses when it hits someone, dramatically reducing force</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🛡️</span>
+        <h3>Soft TPU Skin</h3>
+        <p>Flexible outer layer — no burning sensation, no skin friction</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">👧</span>
+        <h3>Child-Safe Design</h3>
+        <p>Specifically built for school playgrounds and PE classes</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">💪</span>
+        <h3>Still Durable</h3>
+        <p>Soft on the outside, tough enough to last through daily school use</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🌍</span>
+        <h3>Inclusive Play</h3>
+        <p>Encourages more children to join sports, even those afraid of injury</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION & VISION -->
+  <div class="mv-section" id="mission">
+    <div>
+      <div class="section-label">Our Purpose</div>
+      <h2 class="section-title">Mission & Vision</h2>
+      <p class="section-sub" style="max-width:480px;margin:0 auto 2.5rem;">We're not just selling a ball — we're building a safer future for children's sports.</p>
+      <div class="mv-grid">
+        <div class="mv-card mission">
+          <span class="mv-pill">🎯 Mission</span>
+          <h3>What we do today</h3>
+          <p>Our mission is to design safe, soft, and durable sports balls that reduce injuries and allow children to play confidently and enjoy sports in a safe environment.</p>
+        </div>
+        <div class="mv-card vision">
+          <span class="mv-pill">🚀 Vision</span>
+          <h3>Where we're going</h3>
+          <p>Our vision is to become a leading brand in safe sports equipment, promoting injury-free play in schools around the world and encouraging more children to participate in physical activities.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARGET MARKET -->
+  <div class="target-bg" id="market">
+    <div class="section-label">Who We Serve</div>
+    <h2 class="section-title">Our Target Market</h2>
+    <p class="section-sub">SafeBall is designed for anyone who cares about children's safety during sports and play.</p>
+    <div class="target-grid">
+      <div class="target-card">
+        <span class="icon">🏫</span>
+        <h4>Schools</h4>
+        <p>PE departments and playgrounds that need safe equipment</p>
+      </div>
+      <div class="target-card">
+        <span class="icon">👨‍👩‍👧</span>
+        <h4>Parents</h4>
+        <p>Families who want their children to play safely at home</p>
+      </div>
+      <div class="target-card">
+        <span class="icon">⚽</span>
+        <h4>Sports Programs</h4>
+        <p>Youth leagues and after-school clubs for ages 5–14</p>
+      </div>
+      <div class="target-card">
+        <span class="icon">🏥</span>
+        <h4>Health Advocates</h4>
+        <p>Organizations promoting active, injury-free childhood development</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPARISON -->
+  <section id="compare">
+    <div class="section-label">Why Choose Us</div>
+    <h2 class="section-title">SafeBall vs Regular Ball</h2>
+    <p class="section-sub">See exactly how SafeBall outperforms a standard sports ball in every area that matters for children.</p>
+    <div class="compare-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>⚽ SafeBall</th>
+            <th>Regular Ball</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Causes burning sensation</td>
+            <td class="check">✓ No burn at all</td>
+            <td class="cross">✗ Yes, common</td>
+          </tr>
+          <tr>
+            <td>Impact absorption</td>
+            <td class="check">✓ High — foam layer</td>
+            <td class="cross">✗ Very low</td>
+          </tr>
+          <tr>
+            <td>Safe for young children</td>
+            <td class="check">✓ Specifically designed</td>
+            <td class="cross">✗ Risk of injury</td>
+          </tr>
+          <tr>
+            <td>Suitable for school use</td>
+            <td class="check">✓ Built for it</td>
+            <td class="cross">✗ Not recommended</td>
+          </tr>
+          <tr>
+            <td>Reduces fear of playing</td>
+            <td class="check">✓ Encourages confidence</td>
+            <td class="cross">✗ Can discourage kids</td>
+          </tr>
+          <tr>
+            <td>Skin-friendly surface</td>
+            <td class="check">✓ Soft TPU material</td>
+            <td class="cross">✗ Rough & rigid</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="brand">Safe<span>Ball</span></span>
+    <p>Protecting children. Powering play.</p>
+    <p>Making school sports safer for every child, everywhere. 🌍</p>
+    <p class="copy">© 2025 SafeBall. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
